@@ -1,0 +1,27 @@
+{
+  "name": "puppeteer-test-increment",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index",
+    "start:pi": "IS_PI=true node index.js > out3.log",
+    "start": "node index",
+    "docker": "npm run docker:build && npm run docker:run",
+    "docker:build": "docker build -t $(echo $npm_package_name) .",
+    "docker:run": "docker run -i --init --rm --cap-add=SYS_ADMIN --name $(echo $npm_package_name) $(echo $npm_package_name) node -e \"`cat index.js`\""
+  },
+  "keywords": [],
+  "author": "Edd Tidbury",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "dotenv-safe": "^6.1.0",
+    "lodash": "^4.17.11",
+    "puppeteer": "^1.11.0",
+    "querystring": "^0.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  }
+}

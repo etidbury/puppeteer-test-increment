@@ -31,7 +31,10 @@
             "localRoot": "${workspaceFolder}",
             "remoteRoot": "/home/apps/",
             "protocol": "inspector",
-            "restart": true
+            "restart": true,
+            "sourceMapPathOverrides": {
+                "/home/apps/*": "${workspaceFolder}/*"
+            }
         }
     ],
     "compounds": []

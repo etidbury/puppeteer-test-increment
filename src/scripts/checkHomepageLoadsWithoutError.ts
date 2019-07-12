@@ -6,14 +6,11 @@ export default async ({ browser, page }: ScriptArgs) => {
     await page.goto(URL_HOMEPAGE)
 
     const EXPECTED_TEXT = 'Test number from server'
-
     // await page.waitForNavigation({waitUntil:'networkidle2'})
     //try again
     const innerText = await page.evaluate((el) => {
         return el.innerText
     }, await page.$('body'))
-
-    console.log('innerText', innerText)
 
     if (innerText.indexOf(EXPECTED_TEXT) <= -1) {
         throw new Error(`Failed to find text 'Test number from server' in body`)

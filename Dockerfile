@@ -1,4 +1,3 @@
-## Custom Dockerfile
 FROM consol/ubuntu-xfce-vnc
 
 ENV REFRESHED_AT 2019-07-06

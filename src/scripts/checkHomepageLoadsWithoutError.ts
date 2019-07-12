@@ -8,7 +8,7 @@ export default async ({ browser, page }: ScriptArgs) => {
     const EXPECTED_TEXT = 'Test number from server'
 
     // await page.waitForNavigation({waitUntil:'networkidle2'})
-
+    //try again
     const innerText = await page.evaluate((el) => {
         return el.innerText
     }, await page.$('body'))

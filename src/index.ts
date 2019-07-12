@@ -11,13 +11,13 @@ import * as puppeteer from 'puppeteer'
 import checkLocalIncrement from './scripts/checkLocalIncrement'
 import checkHomepageLoadsWithoutError from './scripts/checkHomepageLoadsWithoutError';
 
-const filterConsoleErrorNetworkInterrupts=(consoleErrors:Array<puppeteer.ConsoleMessage>)=>{
+const filterConsoleErrorNetworkInterrupts = (consoleErrors: Array<puppeteer.ConsoleMessage>) => {
     return consoleErrors.filter(
-        (err)=> err.text().indexOf('JSHandle@error')<=-1//ignore interrupted network requests due to page navigation
+        (err) => err.text().indexOf('JSHandle@error') <= -1//ignore interrupted network requests due to page navigation
     )
 }
 
-const init=async()=>{
+const init = async () => {
 
     const browser = await puppeteer.launch({
         args: [
@@ -37,21 +37,21 @@ const init=async()=>{
     const page = await browser.newPage()
 
     //monitor for console errors
-    const firedConsoleErrors=[]
+    const firedConsoleErrors = []
     page.on('console', async msg => {
-        if (msg.type()==="error"){
-                firedConsoleErrors.push(msg as never)
-            }
+        if (msg.type() === "error") {
+            firedConsoleErrors.push(msg as never)
+        }
     })
 
     //accept all dialogs
     page.on('dialog', async dialog => {
         try {
 
-            console.log('dialog message:',dialog.message())
+            console.log('dialog message:', dialog.message())
             await dialog.accept()
 
-        }catch(err){
+        } catch (err) {
             // do nothing
         }
     })
@@ -64,27 +64,27 @@ const init=async()=>{
             height: 667,
             isMobile: true
         },
-        userAgent:'Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5376e Safari/8536.25'
+        userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5376e Safari/8536.25'
     })
 
 
-    await checkHomepageLoadsWithoutError({browser,page})
+    await checkHomepageLoadsWithoutError({ browser, page })
 
-    await checkLocalIncrement({browser,page})
-    
-     
+    await checkLocalIncrement({ browser, page })
+
+
     if (filterConsoleErrorNetworkInterrupts(firedConsoleErrors).length) {
-        console.error('Console errors during login!',filterConsoleErrorNetworkInterrupts(firedConsoleErrors))
+        console.error('Console errors during login!', filterConsoleErrorNetworkInterrupts(firedConsoleErrors))
         //await page.waitFor(240*1000)
 
         throw new Error(`Console errors occurred!`)
     }
 
-   
+
 
     browser.close()
 
- 
+
 
 }
 

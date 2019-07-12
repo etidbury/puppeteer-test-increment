@@ -8,30 +8,29 @@
     "start:pi": "IS_PI=true node index.js > out3.log",
     "start": "node -r ts-node/register --inspect-brk=0.0.0.0 src/index.ts",
     "docker": "npm run docker:build && npm run docker:run",
-    "docker:build:local": "docker build -t $(echo $npm_package_name) .",
-    "docker:run:local": "docker run -it --init --rm --cap-add=SYS_ADMIN -p 6901:6901 -p 9229:9229 -v $(pwd)/:/home/apps:rw $(echo $npm_package_name):latest $(open \"http://localhost:6901/?password=vncpassword/\")",
-    "docker:build": "docker build -t $(echo $npm_package_name) -f $(npm root)/@etidbury/helpers/images/node-puppeteer/Dockerfile .",
-    "docker:run": "docker run -i --init --rm --cap-add=SYS_ADMIN --name $(echo $npm_package_name) $(echo $npm_package_name) node -e \"`cat index.js`\""
+    "docker:build:dev": "docker build -t $(echo $npm_package_name) .",
+    "docker:run:dev": "docker run -it --init --rm --cap-add=SYS_ADMIN -p 6901:6901 -p 9229:9229 -v $(pwd)/:/home/apps:ro $(echo $npm_package_name):latest $(open \"http://localhost:6901/?password=vncpassword/\")",
+    "docker:build": "docker build -t $(echo $npm_package_name) .",
+    "docker:run": "docker run -it --init --rm --cap-add=SYS_ADMIN -p 6901:6901 -p 9229:9229 $(echo $npm_package_name):latest $(open \"http://localhost:6901/?password=vncpassword/\")"
   },
   "keywords": [],
   "author": "Edd Tidbury",
   "license": "ISC",
   "dependencies": {
     "@etidbury/helpers": "^0.0.5",
-    "@types/chai": "^4.1.7",
-    "@types/expect-puppeteer": "^3.3.1",
-    "@types/node": "^12.6.2",
     "axios": "^0.18.0",
     "chai": "^4.2.0",
     "dotenv": "^8.0.0",
     "lodash": "^4.17.11",
-    "puppeteer": "^1.11.0",
     "querystring": "^0.2.0",
     "ts-node": "^8.3.0",
     "typescript": "^3.5.3"
   },
   "devDependencies": {
     "@types/puppeteer": "^1.12.4",
+    "@types/chai": "^4.1.7",
+    "@types/expect-puppeteer": "^3.3.1",
+    "@types/node": "^12.6.2",
     "nodemon": "^1.18.9"
   }
 }

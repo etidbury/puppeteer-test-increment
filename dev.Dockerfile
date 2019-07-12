@@ -4,13 +4,19 @@ FROM consol/ubuntu-xfce-vnc
 ENV REFRESHED_AT 2019-07-06
 ENV DOCKER_CONTAINER true
 
-ENV NODE_PATH /usr/lib/node_modules
-ENV NODE_ENV production
-ENV LANG en_US.UTF-8
-ENV LC_ALL en_US.UTF-8
 
 # Switch to root user to install additional software
 USER 0
+
+
+
+
+RUN echo "LC_ALL=en_US.UTF-8" >> /etc/environment
+RUN echo "LANG=en_US.UTF-8" >> /etc/environment
+RUN echo "NODE_ENV=production" >> /etc/environment
+RUN echo "NODE_PATH=/usr/lib/node_modules" >> /etc/environment
+
+
 
 # Require Nodejs dependencies
 #todo: remove dups
@@ -48,19 +54,24 @@ RUN npm install -g body-parser
 # Set permissions for global node modules (including globally installed dependencies)
 RUN chown -R apps:apps /usr/lib/node_modules
 
-WORKDIR /home/apps
-COPY . /home/apps
-RUN chown -R apps:apps /home/apps
-
+RUN export NODE_PATH=$(npm root -g)
 ## switch back to default user
 USER 1000
 
+
+
+WORKDIR /home/apps
+#COPY . /home/apps
+
+#RUN chown -R apps:apps /home/apps
+
 # use changes to package.json to force Docker not to use the cache
 # when we change our application's nodejs dependencies:
-ADD package.json /tmp/package.json
-ADD yarn.lock /tmp/yarn.lock
-RUN cd /tmp && yarn --pure-lockfile --no-cache --production --unsafe-perm
-RUN cp -a /tmp/node_modules /home/apps
+# ADD package.json /tmp/package.json
+# ADD yarn.lock /tmp/yarn.lock
+# RUN cd /tmp && yarn --pure-lockfile --no-cache --production --unsafe-perm
+# RUN cp -a /tmp/node_modules /home/apps
+
 
 # RUN yarn --no-cache --production --unsafe-perm
 

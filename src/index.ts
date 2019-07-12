@@ -1,3 +1,11 @@
+import * as path from 'path'
+
+require('dotenv').config({
+    path: path.join(process.cwd(), '.env'),
+    safe: true,
+    debug: process.env.DEBUG,
+    allowEmptyValues: true
+})
 
 import * as puppeteer from 'puppeteer'
 import checkLocalIncrement from './scripts/checkLocalIncrement'
@@ -13,12 +21,13 @@ const init=async()=>{
 
     const browser = await puppeteer.launch({
         args: [
-            //  '--start-fullscreen',
+            '--start-fullscreen',
             //    "--disable-gpu",
             '--disable-setuid-sandbox',
             // "--force-device-scale-factor",
             '--ignore-certificate-errors',
             '--no-sandbox',
+            '--auto-open-devtools-for-tabs'
         ],
         // executablePath: await chrome.executablePath,
         headless: false,

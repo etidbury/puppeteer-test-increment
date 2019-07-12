@@ -1,22 +1,22 @@
-import {expect} from 'chai'
 import { ScriptArgs } from '../types'
+import { URL_HOMEPAGE } from '../config'
 
-const {
-    HOST,
-    PORT,
-    // GOOGLE_TEST_USERNAME,
-    // GOOGLE_TEST_PASSWORD,
-    // API_BASE_URL
-} = process.env
+export default async ({ browser, page }: ScriptArgs) => {
 
-// import {takeScreenshotAndUploadToS3} from '@etidbury/ts-next-helpers/util/test'
+    await page.goto(URL_HOMEPAGE)
 
-const CLIENT_BASE_URL = process.env.CLIENT_BASE_URL || `http://${HOST}:${PORT}`
+    const EXPECTED_TEXT = 'Test number from server'
 
-export default async ({browser,page}:ScriptArgs)=>{
-    
-    await page.goto( CLIENT_BASE_URL,{waitUntil:"networkidle2"} )
-    
-    await expect(page).to.include('Test number from server')
+    // await page.waitForNavigation({waitUntil:'networkidle2'})
+
+    const innerText = await page.evaluate((el) => {
+        return el.innerText
+    }, await page.$('body'))
+
+    console.log('innerText', innerText)
+
+    if (innerText.indexOf(EXPECTED_TEXT) <= -1) {
+        throw new Error(`Failed to find text 'Test number from server' in body`)
+    }
 
 }

@@ -1,4 +1,3 @@
-import {expect} from 'chai'
 import { ScriptArgs } from '../types'
 
 import {
@@ -6,6 +5,7 @@ import {
     ,SELECTOR_BTN_SERVER_TEST_NUMBER_INCREMENT
     ,SELECTOR_CONTAINER_LOCAL_TEST_NUMBER
     ,SELECTOR_CONTAINER_SERVER_TEST_NUMBER
+    ,URL_HOMEPAGE
 } from '../config'
 
 const {
@@ -18,12 +18,13 @@ const {
 
 // import {takeScreenshotAndUploadToS3} from '@etidbury/ts-next-helpers/util/test'
 
-const CLIENT_BASE_URL = process.env.CLIENT_BASE_URL || `http://${HOST}:${PORT}`
 
 export default async ({browser,page}:ScriptArgs)=>{
     
-    await page.goto( CLIENT_BASE_URL,{waitUntil:"networkidle2"} )
+    await page.goto( URL_HOMEPAGE,{waitUntil:"networkidle2"} )
     
-    await expect(page).to.include('Test number from server')
+    if (!await page.evaluate(() => document.body.innerHTML.indexOf('Test number from server')>-1)){
+        throw new Error('Failed to find text')
+    }
 
 }

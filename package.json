@@ -5,18 +5,16 @@
   "main": "index.js",
   "scripts": {
     "start:pi": "IS_PI=true node index.js > out3.log",
-    "dev:debug": "nodemon --watch src/**/* --exec 'node -r ts-node/register --inspect=0.0.0.0 src/index.ts'",
-    "docker:dev": "yarn docker:build:dev && yarn docker:run:dev",
-    "docker:build:dev": "docker build -t $(echo $npm_package_name) -f $(npm root)/@etidbury/helpers/images/node-puppeteer/dev.Dockerfile .",
-    "docker:run:dev": "docker run -it --init --rm --cap-add=SYS_ADMIN -p 6901:6901 -p 9229:9229 -v $(pwd)/:/home/apps:ro $(echo $npm_package_name):latest yarn dev:debug && $(open \"http://localhost:6901/?password=vncpassword/\")",
-    "docker:build": "docker build -t $(echo $npm_package_name) .",
-    "docker:run": "docker run -it --init --rm --cap-add=SYS_ADMIN -p 6901:6901 -p 9229:9229 $(echo $npm_package_name):latest $(open \"http://localhost:6901/?password=vncpassword/\")"
+    "dev": "$(npm root)/@etidbury/helpers/images/node-puppeteer/run-dev.sh \"yarn entrypoint\"",
+    "start": "yarn prod",
+    "prod": "$(npm root)/@etidbury/helpers/images/node-puppeteer/run.sh \"yarn entrypoint\"",
+    "entrypoint": "nodemon --watch src/**/* --exec 'node -r ts-node/register --inspect=0.0.0.0 src/index.ts'"
   },
   "keywords": [],
   "author": "Edd Tidbury",
   "license": "ISC",
   "dependencies": {
-    "@etidbury/helpers": "^0.1.1",
+    "@etidbury/helpers": "^0.2.3",
     "axios": "^0.18.0",
     "chai": "^4.2.0",
     "dotenv": "^8.0.0",

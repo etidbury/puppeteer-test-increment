@@ -10,6 +10,7 @@ require('dotenv').config({
 import * as puppeteer from 'puppeteer'
 import checkLocalIncrement from './scripts/checkLocalIncrement'
 import checkHomepageLoadsWithoutError from './scripts/checkHomepageLoadsWithoutError';
+import incrementNumber from './scripts/incrementNumber';
 
 const filterConsoleErrorNetworkInterrupts = (consoleErrors: Array<puppeteer.ConsoleMessage>) => {
     return consoleErrors.filter(
@@ -75,6 +76,8 @@ const init = async () => {
         await checkHomepageLoadsWithoutError({ browser, page })
 
         await checkLocalIncrement({ browser, page })
+
+        await incrementNumber({ browser, page })
 
 
         if (filterConsoleErrorNetworkInterrupts(firedConsoleErrors).length) {

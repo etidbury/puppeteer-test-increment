@@ -3,10 +3,10 @@ import { URL_HOMEPAGE } from '../config'
 
 export default async ({ browser, page }: ScriptArgs) => {
 
-    await page.goto(URL_HOMEPAGE)
+    await page.goto(URL_HOMEPAGE, { waitUntil: 'networkidle0' })
 
     const EXPECTED_TEXT = 'Test number from server'
-    // await page.waitForNavigation({waitUntil:'networkidle2'})
+    // await page.waitForNavigation({ waitUntil: 'networkidle2' })
     //try again
     const innerText = await page.evaluate((el) => {
         return el.innerText

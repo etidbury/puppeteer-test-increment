@@ -32,7 +32,7 @@ const init = async () => {
         // executablePath: await chrome.executablePath,
         headless: false,
         // dumpio:true,
-        executablePath: '/usr/bin/chromium-browser'
+        executablePath: process.env.DOCKER_CONTAINER ? '/usr/bin/chromium-browser' : undefined
     })
     const page = await browser.newPage()
 

@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@etidbury/helpers@^0.2.7":
-  version "0.2.7"
-  resolved "https://registry.yarnpkg.com/@etidbury/helpers/-/helpers-0.2.7.tgz#8f7d77b400448ca7126b6d71dd692c1cc5595123"
-  integrity sha512-6rU+c6AIK68ZSBiKIkwSJniD3RfghO1IIWbZk6q33mYcCjF42ekw2CkZ12Toig9r3p+laIVuvL9WUI5/Y20BpA==
+"@etidbury/helpers@^0.2.8":
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/@etidbury/helpers/-/helpers-0.2.8.tgz#35727e44a53252d5fc525061b88af0b32bd964d1"
+  integrity sha512-K4zWETA+b+wVQ1uKL9a4RvsSb0bDvMxPpLH5DKLm8LKxzfa0ji3qg0hHtBYjlVIjkdOrteY5ACsHZAYEHRsCuA==
   dependencies:
     aws-sdk "^2.395.0"
     dotenv "^6.1.0"

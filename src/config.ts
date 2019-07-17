@@ -3,4 +3,8 @@ export const SELECTOR_BTN_SERVER_TEST_NUMBER_INCREMENT = '#btn-server-test-numbe
 export const SELECTOR_CONTAINER_LOCAL_TEST_NUMBER = '#local-test-number'
 export const SELECTOR_CONTAINER_SERVER_TEST_NUMBER = '#server-test-number'
 
-export const URL_HOMEPAGE = process.env.BASE_URL ? process.env.BASE_URL : `http://${process.env.DOCKER_CONTAINER ? 'host.docker.internal' : 'localhost'}:3070/`
+if (typeof process.env.BASE_URL === "undefined") {
+    throw new TypeError('Required environment variable BASE_URL not specified')
+}
+
+export const URL_HOMEPAGE = process.env.BASE_URL

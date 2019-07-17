@@ -1,10 +1,8 @@
 import * as path from 'path'
 
-require('dotenv').config({
+require('dotenv-safe').config({
     path: path.join(process.cwd(), '.env'),
-    safe: true,
-    debug: process.env.DEBUG,
-    allowEmptyValues: true
+    debug: process.env.DEBUG
 })
 
 import * as puppeteer from 'puppeteer'

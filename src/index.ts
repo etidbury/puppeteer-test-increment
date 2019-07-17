@@ -2,7 +2,8 @@ import * as path from 'path'
 
 require('dotenv-safe').config({
     path: path.join(process.cwd(), '.env'),
-    debug: process.env.DEBUG
+    debug: process.env.DEBUG,
+    allowEmptyValues: true
 })
 
 import * as puppeteer from 'puppeteer'

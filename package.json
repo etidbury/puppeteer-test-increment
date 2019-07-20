@@ -19,6 +19,7 @@
     "dotenv": "^8.0.0",
     "dotenv-safe": "^6.1.0",
     "lodash": "^4.17.11",
+    "puppeteer": "^1.18.1",
     "querystring": "^0.2.0",
     "ts-node": "^8.3.0",
     "typescript": "^3.5.3"

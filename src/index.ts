@@ -6,6 +6,9 @@ require('dotenv-safe').config({
     allowEmptyValues: true
 })
 
+console.debug('process.env', process.env)
+
+
 import * as puppeteer from 'puppeteer'
 import checkLocalIncrement from './scripts/checkLocalIncrement'
 import checkHomepageLoadsWithoutError from './scripts/checkHomepageLoadsWithoutError';
@@ -38,6 +41,8 @@ const init = async () => {
             // dumpio:true,
             executablePath: process.env.DOCKER_CONTAINER ? '/usr/bin/chromium-browser' : undefined
         })
+
+        //const page = await browser.targets()[browser.targets().length - 1].page()
         const page = await browser.newPage()
 
         //monitor for console errors

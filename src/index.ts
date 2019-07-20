@@ -39,7 +39,7 @@ const init = async () => {
             // executablePath: await chrome.executablePath,
             headless: false,
             // dumpio:true,
-            executablePath: process.env.DOCKER_CONTAINER ? '/usr/bin/chromium-browser' : undefined
+            //executablePath: process.env.DOCKER_CONTAINER ? '/usr/bin/chromium-browser' : undefined
         })
 
         //const page = await browser.targets()[browser.targets().length - 1].page()

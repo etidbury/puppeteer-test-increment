@@ -34,7 +34,12 @@ const init = async () => {
                 // "--force-device-scale-factor",
                 '--ignore-certificate-errors',
                 '--no-sandbox',
-                '--auto-open-devtools-for-tabs'
+                '--auto-open-devtools-for-tabs',
+                '--disable-gpu',
+                // '--ignoreHTTPSErrors',
+                // '--enable-features=NetworkService',
+                // '--allow-running-insecure-content',
+                // '--disable-web-security'
             ],
             // executablePath: await chrome.executablePath,
             headless: false,
@@ -44,6 +49,18 @@ const init = async () => {
 
         //const page = await browser.targets()[browser.targets().length - 1].page()
         const page = await browser.newPage()
+
+        await page.setRequestInterception(true)
+        await page.setDefaultNavigationTimeout(10 * 1000)
+        page.on('request', interceptedRequest => {
+            console.debug('intercepted', interceptedRequest.url())
+            interceptedRequest.continue()
+            // if (interceptedRequest.url().endsWith('.png') || interceptedRequest.url().endsWith('.jpg'))
+            //     interceptedRequest.abort();
+            // else
+            //     interceptedRequest.continue();
+        });
+
 
         //monitor for console errors
         const firedConsoleErrors = []
@@ -76,13 +93,15 @@ const init = async () => {
             userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5376e Safari/8536.25'
         })
 
+        console.debug('Running scripts...')
 
         await checkHomepageLoadsWithoutError({ browser, page })
 
         await checkLocalIncrement({ browser, page })
 
+        console.debug('Running scripts1...')
         await incrementNumber({ browser, page })
-
+        console.debug('Running scripts2...')
 
         if (filterConsoleErrorNetworkInterrupts(firedConsoleErrors).length) {
             console.error('Console errors during login!', filterConsoleErrorNetworkInterrupts(firedConsoleErrors))
@@ -92,6 +111,8 @@ const init = async () => {
         }
 
         browser.close()
+
+        console.log('done')
 
     } catch (err) {
         console.error('err', err)

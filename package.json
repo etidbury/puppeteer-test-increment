@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node -r ts-node/register src/index.ts",
-    "dev": "$(npm root)/@etidbury/helpers/images/node-puppeteer/run-dev.sh \"yarn entrypoint\"",
+    "dev": "/Users/edwardtidbury/Documents/helpers/images/node-puppeteer/run-dev.sh \"yarn entrypoint\"",
     "prod": "$(npm root)/@etidbury/helpers/images/node-puppeteer/run.sh \"yarn entrypoint\"",
     "entrypoint": "nodemon --watch src/**/* --exec 'node -r ts-node/register --inspect=0.0.0.0 src/index.ts'"
   },
@@ -13,13 +13,13 @@
   "author": "Edd Tidbury",
   "license": "ISC",
   "dependencies": {
-    "@etidbury/helpers": "^0.2.8",
+    "@etidbury/helpers": "^0.2.9",
     "axios": "^0.18.0",
     "chai": "^4.2.0",
     "dotenv": "^8.0.0",
     "dotenv-safe": "^6.1.0",
     "lodash": "^4.17.11",
-    "puppeteer": "^1.18.1",
+    "puppeteer": "1.11.0",
     "querystring": "^0.2.0",
     "ts-node": "^8.3.0",
     "typescript": "^3.5.3"

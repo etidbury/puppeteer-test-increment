@@ -27,7 +27,7 @@ const init = async () => {
                 // "--force-device-scale-factor",
                 '--ignore-certificate-errors',
                 '--no-sandbox',
-                '--auto-open-devtools-for-tabs',
+                // '--auto-open-devtools-for-tabs',
                 '--disable-gpu',
                 // '--ignoreHTTPSErrors',
                 // '--enable-features=NetworkService',

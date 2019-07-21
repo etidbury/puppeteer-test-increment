@@ -112,6 +112,7 @@ const init = async () => {
     } catch (err) {
         console.error('err', err)
         browser.close()
+        process.exit(1)
     }
 
 

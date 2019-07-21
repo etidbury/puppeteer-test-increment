@@ -8,17 +8,14 @@ require('dotenv-safe').config({
 
 console.debug('process.env', process.env)
 
+var events = require('events');
 
 import * as puppeteer from 'puppeteer'
 import checkLocalIncrement from './scripts/checkLocalIncrement'
 import checkHomepageLoadsWithoutError from './scripts/checkHomepageLoadsWithoutError';
 import incrementNumber from './scripts/incrementNumber';
 
-const filterConsoleErrorNetworkInterrupts = (consoleErrors: Array<puppeteer.ConsoleMessage>) => {
-    return consoleErrors.filter(
-        (err) => err.text().indexOf('JSHandle@error') <= -1//ignore interrupted network requests due to page navigation
-    )
-}
+const { filterConsoleErrorNetworkInterrupts } = require('@etidbury/helpers/util/puppeteer')
 
 const init = async () => {
 
@@ -41,7 +38,6 @@ const init = async () => {
                 // '--allow-running-insecure-content',
                 // '--disable-web-security'
             ],
-            // executablePath: await chrome.executablePath,
             headless: false,
             // dumpio:true,
             executablePath: process.env.PUPPETEER_EXECUTABLE_PATH ? process.env.PUPPETEER_EXECUTABLE_PATH : undefined
@@ -51,16 +47,17 @@ const init = async () => {
         const page = await browser.newPage()
 
         await page.setRequestInterception(true)
-        await page.setDefaultNavigationTimeout(10 * 1000)
-        page.on('request', interceptedRequest => {
-            console.debug('intercepted', interceptedRequest.url())
-            interceptedRequest.continue()
-            // if (interceptedRequest.url().endsWith('.png') || interceptedRequest.url().endsWith('.jpg'))
-            //     interceptedRequest.abort();
-            // else
-            //     interceptedRequest.continue();
-        });
+        await page.setDefaultNavigationTimeout(30 * 1000)
 
+        page.on('request', interceptedRequest => {
+            //console.debug('Intercepted request URL:', interceptedRequest.url())
+            interceptedRequest.continue()
+
+        })
+
+        page.on('response', interceptedRequest => {
+            //console.debug('Intercepted response URL:', interceptedRequest.url())
+        })
 
         //monitor for console errors
         const firedConsoleErrors = []
@@ -99,9 +96,7 @@ const init = async () => {
 
         await checkLocalIncrement({ browser, page })
 
-        console.debug('Running scripts1...')
         await incrementNumber({ browser, page })
-        console.debug('Running scripts2...')
 
         if (filterConsoleErrorNetworkInterrupts(firedConsoleErrors).length) {
             console.error('Console errors during login!', filterConsoleErrorNetworkInterrupts(firedConsoleErrors))

@@ -1,9 +1,12 @@
 import { ScriptArgs } from '../types'
 import { URL_HOMEPAGE } from '../config'
+const { interceptWaitForNetworkIdle } = require('@etidbury/helpers/util/puppeteer')
 
 export default async ({ browser, page }: ScriptArgs) => {
 
-    await page.goto(URL_HOMEPAGE, { waitUntil: 'networkidle0' })
+    await page.goto(URL_HOMEPAGE)
+
+    await interceptWaitForNetworkIdle(page, 5 * 1000)
 
     const EXPECTED_TEXT = 'Test number from server'
     // await page.waitForNavigation({ waitUntil: 'networkidle2' })
@@ -16,6 +19,9 @@ export default async ({ browser, page }: ScriptArgs) => {
         throw new Error(`Failed to find text 'Test number from server' in body`)
     }
 
+    const originalServerIncrement = await page.evaluate((el) => {
+        return el.innerText
+    }, await page.$('#server-test-number'))
 
     // await page.waitFor(4000)
 
@@ -25,37 +31,20 @@ export default async ({ browser, page }: ScriptArgs) => {
 
     console.debug('Clicked server increment')
 
-    await Promise.race([
-        page.waitForNavigation({ waitUntil: "networkidle0" })
-    ]);
-
-    page.on('request', interceptedRequest => {
-        console.debug('intercepted', interceptedRequest.url())
-        interceptedRequest.continue()
-        // if (interceptedRequest.url().endsWith('.png') || interceptedRequest.url().endsWith('.jpg'))
-        //     interceptedRequest.abort();
-        // else
-        //     interceptedRequest.continue();
-    });
-
-    page.on('requestfinished', interceptedRequest => {
-        console.debug('intercepted finished', interceptedRequest.url())
-        interceptedRequest.continue()
-        // if (interceptedRequest.url().endsWith('.png') || interceptedRequest.url().endsWith('.jpg'))
-        //     interceptedRequest.abort();
-        // else
-        //     interceptedRequest.continue();
-    });
-
-    page.on('response', interceptedRequest => {
-        console.debug('intercepted response', interceptedRequest.url())
-
-        // if (interceptedRequest.url().endsWith('.png') || interceptedRequest.url().endsWith('.jpg'))
-        //     interceptedRequest.abort();
-        // else
-        //     interceptedRequest.continue();
-    });
+    await interceptWaitForNetworkIdle(page, 5 * 1000)
 
     console.debug('Network idle.')
+
+    await page.waitFor(2 * 1000) //wait for re-render
+
+    const afterServerIncrement = await page.evaluate((el) => {
+        return el.innerText
+    }, await page.$('#server-test-number'))
+
+    console.debug(`Server increment - before:${originalServerIncrement} after:${afterServerIncrement}`)
+
+    if (parseInt(originalServerIncrement) + 1 !== parseInt(afterServerIncrement)) {
+        throw new Error('Server number was not incremented by 1!')
+    }
 
 }

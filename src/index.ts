@@ -6,10 +6,6 @@ require('dotenv-safe').config({
     allowEmptyValues: true
 })
 
-console.debug('process.env', process.env)
-
-var events = require('events');
-
 import * as puppeteer from 'puppeteer'
 import checkLocalIncrement from './scripts/checkLocalIncrement'
 import checkHomepageLoadsWithoutError from './scripts/checkHomepageLoadsWithoutError';
@@ -79,8 +75,6 @@ const init = async () => {
             }
         })
 
-        // const browser = await puppeteer.launch();
-        // const page = await browser.newPage();
         await page.emulate({
             viewport: {
                 width: 375,

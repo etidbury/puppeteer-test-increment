@@ -5,24 +5,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "DevLaunch",
-            "type": "node",
-            "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/next",
-            "env": {
-                "NODE_OPTIONS": "--inspect"
-            },
-            "runtimeArgs": [
-                "dev",
-                "--",
-                "-p",
-                "3050"
-            ],
-            "port": 9229,
-            "skipFiles": []
-        },
-        {
             "name": "Docker: Attach to Node",
             "type": "node",
             "request": "attach",

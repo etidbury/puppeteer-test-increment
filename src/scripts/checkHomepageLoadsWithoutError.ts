@@ -5,7 +5,7 @@ const { interceptWaitForNetworkIdle } = require('@etidbury/helpers/util/puppetee
 
 export default async ({ page }: ScriptArgs) => {
 
-    await page.goto(URL_HOMEPAGE, { waitUntil: 'networkidle2' })
+    await page.goto(URL_HOMEPAGE)
 
     const EXPECTED_TEXT = 'Test number from server'
 

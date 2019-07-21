@@ -6,9 +6,13 @@ import {
 
 // import {takeScreenshotAndUploadToS3} from '@etidbury/ts-next-helpers/util/test'
 
+const { interceptWaitForNetworkIdle } = require('@etidbury/helpers/util/puppeteer')
+
 export default async ({ browser, page }: ScriptArgs) => {
 
-    await page.goto(URL_HOMEPAGE, { waitUntil: "networkidle2" })
+    await page.goto(URL_HOMEPAGE)
+
+    await interceptWaitForNetworkIdle(page, 5 * 1000)
 
     const EXPECTED_TEXT = 'Local increment number'
 

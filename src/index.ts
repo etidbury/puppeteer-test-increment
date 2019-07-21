@@ -6,7 +6,7 @@ require('dotenv-safe').config({
     allowEmptyValues: true
 })
 
-import * as puppeteer from 'puppeteer'
+import * as puppeteer from 'puppeteer-core'
 import checkLocalIncrement from './scripts/checkLocalIncrement'
 import checkHomepageLoadsWithoutError from './scripts/checkHomepageLoadsWithoutError';
 import checkServerIncrement from './scripts/checkServerIncrement';

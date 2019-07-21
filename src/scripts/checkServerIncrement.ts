@@ -39,7 +39,13 @@ export default async ({ browser, page }: ScriptArgs) => {
     console.debug(`Server increment - before:${originalServerIncrement} after:${afterServerIncrement}`)
 
     if (parseInt(originalServerIncrement) + 1 !== parseInt(afterServerIncrement)) {
-        throw new Error('Server number was not incremented by 1!')
+
+        if (parseInt(afterServerIncrement) > parseInt(originalServerIncrement)) {
+            console.warn("Server number was incremented externally. Ignoring.")
+        } else {
+            throw new Error('Server number was not incremented!')
+        }
+
     }
 
 }

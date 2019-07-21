@@ -9,7 +9,7 @@ require('dotenv-safe').config({
 import * as puppeteer from 'puppeteer'
 import checkLocalIncrement from './scripts/checkLocalIncrement'
 import checkHomepageLoadsWithoutError from './scripts/checkHomepageLoadsWithoutError';
-import incrementNumber from './scripts/incrementNumber';
+import checkServerIncrement from './scripts/checkServerIncrement';
 
 const { filterConsoleErrorNetworkInterrupts } = require('@etidbury/helpers/util/puppeteer')
 
@@ -90,7 +90,7 @@ const init = async () => {
 
         await checkLocalIncrement({ browser, page })
 
-        await incrementNumber({ browser, page })
+        await checkServerIncrement({ browser, page })
 
         if (filterConsoleErrorNetworkInterrupts(firedConsoleErrors).length) {
             console.error('Console errors during login!', filterConsoleErrorNetworkInterrupts(firedConsoleErrors))

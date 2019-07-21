@@ -9,8 +9,9 @@ export default async ({ page }: ScriptArgs) => {
 
     const EXPECTED_TEXT = 'Test number from server'
 
+    console.debug('Waiting for network to be idle')
     await interceptWaitForNetworkIdle(page, 5 * 1000)
-
+    console.debug('Network now idle')
     const innerText = await page.evaluate((el) => {
         return el.innerText
     }, await page.$('body'))

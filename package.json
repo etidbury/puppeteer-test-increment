@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node -r ts-node/register src/index.ts",
-    "dev": "/Users/edwardtidbury/Documents/helpers/images/node-puppeteer/run-dev.sh \"yarn entrypoint\"",
+    "dev": "$(npm root)/@etidbury/helpers/images/node-puppeteer/run-dev.sh \"yarn entrypoint\"",
     "prod": "$(npm root)/@etidbury/helpers/images/node-puppeteer/run.sh \"yarn entrypoint\"",
     "entrypoint": "nodemon --watch src/**/* --exec 'node -r ts-node/register --inspect=0.0.0.0 src/index.ts'"
   },

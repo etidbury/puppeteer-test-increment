@@ -108,6 +108,7 @@ const init = async () => {
         browser.close()
 
         console.log('done')
+        process.exit(0)
 
     } catch (err) {
         console.error('err', err)

@@ -14,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "@etidbury/helpers": "^0.2.13",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "chai": "^4.2.0",
     "dotenv": "^8.0.0",
     "dotenv-safe": "^6.1.0",
